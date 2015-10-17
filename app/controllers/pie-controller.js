@@ -7,8 +7,16 @@ app.controller('PieController', function ($scope) {
             $scope.slices--;
         }
     };
+    
+    this.requestFlavor = function (flavor) {
+        $scope.lastRequestedFlavor = flavor;
 
+    }
+
+    $scope.lastRequestedFlavor;
     $scope.slices = 8;
+
+
 
 })
 

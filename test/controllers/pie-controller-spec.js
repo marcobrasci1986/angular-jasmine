@@ -32,13 +32,32 @@ describe('PieController', function () {
 
             });
         });
+
+        describe('requestFlavor', function () {
+            it('Should set $scope.lastRequestedFlavor to passed in argument', function () {
+                var flavor = 'cherry';
+                controller.requestFlavor(flavor);
+                expect($scope.lastRequestedFlavor).toEqual(flavor);
+
+            });
+        });
     });
 
-    describe('Init', function () {
+    //jasd
+    describe('Initialization', function () {
+        //jasi
         it('Should intantiate slices to 8', function () {
             expect($scope.slices).toEqual(8);
 
         });
+
+        it('Should instantiate $scope.lastRequestFlavor', function () {
+            expect($scope.lastRequestedFlavor).toBeUndefined();
+
+
+        });
+        
+        
     });
 
 });
