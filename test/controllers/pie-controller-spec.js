@@ -8,7 +8,7 @@ describe('PieController', function () {
     var $rootScope, $scope, controller;
 
     beforeEach(function () {
-        module('pie');
+        module('myApp');
 
         inject(function ($injector) {
             $rootScope = $injector.get('$rootScope');
