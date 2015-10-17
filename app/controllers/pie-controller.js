@@ -1,4 +1,4 @@
-var app = angular.module('pie', []);
+
 
 app.controller('PieController', function ($scope) {
 
