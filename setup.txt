@@ -1,0 +1,30 @@
+Video tutorial: https://www.youtube.com/watch?v=YRzr27Bpx_g&list=PLw5h0DiJ-9PDbh2i6knU4FybWA63PPbVi
+
+setup node modules:
+------------------
+
+npm init: creates package.json in root
+
+npm install karma --save-dev
+npm install karma-jasmine --save-dev
+npm install karma-chrome-launcher --save-dev
+
+setup karma:
+------------
+karma init
+app/**/*js : all js files within app
+test/**/*js : all js files within test
+
+creates karma.conf.js in root
+
+To run the tests:
+----------------
+
+karma start karma.conf.js
+
+
+
+
+
+
+
