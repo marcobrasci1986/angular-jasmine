@@ -1,0 +1,10 @@
+https://www.jetbrains.com/idea/help/monitoring-code-coverage-for-javascript.html
+
+summary:
+--------
+
+1. npm install karma-coverage
+2. reporters: ['progress', 'coverage']
+3. preprocessors: {
+       '**/*.js': ['coverage']
+   }
