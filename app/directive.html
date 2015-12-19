@@ -9,11 +9,10 @@
     <script src="../bower_components/angular/angular.min.js"></script>
     <script src="app.js"></script>
     <script src="controllers/DirectiveController.js"></script>
-    <script src="filters/title-case.js"></script>
-    <script src="filters/ordinal.js"></script>
+    <script src="directive/changeCase.js"></script>
+
 </head>
 <body ng-controller="DirectiveController as dc">
-
 
 
 <div class="container">
@@ -21,10 +20,15 @@
 
     <form novalidate>
         <div class="form-group">
-            <label for="exampleInputEmail1">Email address</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+            <label>View Value:</label>
+            <input name="someinput" change-case ng-model="dc.value">
         </div>
+
+        <strong>ModelValue:</strong>  {{ dc.value }} <br>
+        <strong>ModelValue in math:</strong>  {{ dc.value  + 5}} <br>
     </form>
+
+
 </div>
 
 
