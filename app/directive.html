@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Angular test</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+    <script src="../bower_components/angular/angular.min.js"></script>
+    <script src="app.js"></script>
+    <script src="controllers/DirectiveController.js"></script>
+    <script src="filters/title-case.js"></script>
+    <script src="filters/ordinal.js"></script>
+</head>
+<body ng-controller="DirectiveController as dc">
+
+
+
+<div class="container">
+    <h1>{{ dc.title }}</h1>
+
+    <form novalidate>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Email address</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+        </div>
+    </form>
+</div>
+
+
+</body>
+</html>
