@@ -7,24 +7,29 @@
  *
  * max decimals 2 digits
  */
-app.directive('changeCase', function(){
-    return{
+app.directive('changeCase', function () {
+    return {
         restrict: 'A',
         require: 'ngModel',
-        link: function(scope, element, attr, ngModel){
+        link: function (scope, element, attr, ngModel) {
 
             /**
              * On blur we check if the value has 2 decimals. If not we add ',00', if it has 1 decimal we add a '0'.
              */
-            element.bind('blur', function() {
+            element.bind('blur', function () {
+                this.value = this.value.replace('.', ",");
                 var numberOfDecimals = findDecimalCount(this.value);
 
                 /**
                  * Add decimals if not present of add one if there is only 1 decimal
                  */
-                if(numberOfDecimals == 0){
-                    this.value = this.value + ",00";
-                }else if(numberOfDecimals == 1){
+                if (numberOfDecimals == 0) {
+                    if (this.value.indexOf(",") == -1) {
+                        this.value = this.value + ",00";
+                    } else {
+                        this.value = this.value + "00"; // fixed cases: 12. or 12, to 12,00
+                    }
+                } else if (numberOfDecimals == 1) {
                     this.value = this.value + "0";
                 }
             });
@@ -35,8 +40,8 @@ app.directive('changeCase', function(){
              *
              * Formatters are only called when the model changes in code.
              */
-            ngModel.$formatters.push(function(value){
-                if(value == null){
+            ngModel.$formatters.push(function (value) {
+                if (value == null) {
                     value = 0;
                 }
                 return value;
@@ -49,17 +54,26 @@ app.directive('changeCase', function(){
              *
              * Do modifications the value. the returned value will be the model value
              */
-            var lastKnownValidValue;
-            ngModel.$parsers.push(function(valueEnteredInView){
+            var lastKnownValidValue = "0";
+            ngModel.$parsers.push(function (valueEnteredInView) {
                 //convert to string
                 valueEnteredInView = valueEnteredInView.toString();
                 // replace . with ,
                 valueEnteredInView = valueEnteredInView.replace('.', ",");
 
+                // cases 12, and 12. are valid --> is fixed in onBlur event
+                var valid = true;
+                var split = valueEnteredInView.split(",");
+                if (!(split.length == 2 && split[1] == "")) {
+                    var isNumber = Number(valueEnteredInView.replace(",", "."));
+                    if (isNaN(isNumber)) {
+                        valid = false;
+                    }
+                }
                 var decimals = findDecimalCount(valueEnteredInView);
 
                 var valueToReturn;
-                if(valueEnteredInView < 0 || decimals > 2){
+                if (!valid || decimals > 2) {
                     // value entered is invalid: reset valueToReturn to last lastKnownValidValue
                     valueToReturn = lastKnownValidValue;
                     ngModel.$setViewValue(lastKnownValidValue); // triggers parser again
@@ -69,9 +83,6 @@ app.directive('changeCase', function(){
                     lastKnownValidValue = valueToReturn;
 
                 }
-
-                console.log("Is number " + typeof valueToReturn === 'number');
-                console.log("Is String" + typeof valueToReturn === 'string');
                 return Number(valueToReturn.replace(',', '.'));
             });
 
@@ -80,10 +91,10 @@ app.directive('changeCase', function(){
              * @param value
              * @returns {number}
              */
-            function findDecimalCount(value){
+            function findDecimalCount(value) {
                 var split = value.split(",");
                 var decimals = 0;
-                if(split.length > 1){
+                if (split.length > 1) {
                     decimals = split[1].length;
                 }
                 console.log("decimals %s", decimals);
@@ -95,26 +106,3 @@ app.directive('changeCase', function(){
         }
     };
 });
-
-
-
-//var lastKnownValidValue;
-//ngModel.$parsers.push(function(valueEnteredInView){
-//    console.log("value %s", valueEnteredInView);
-//
-//    var valueToReturn;
-//
-//    if(valueEnteredInView.length > 2){
-//        // value entered is invalid: reset return_value to last known valid value
-//        valueToReturn = lastKnownValidValue;
-//        ngModel.$setViewValue(lastKnownValidValue); // triggers parser again
-//        ngModel.$render();
-//        ngModel.$setValidity('is_valid', false);
-//    } else {
-//        valueToReturn = valueEnteredInView;
-//        lastKnownValidValue = valueToReturn;
-//        ngModel.$setValidity('is_valid', true);
-//    }
-//
-//    return valueToReturn;
-//});
